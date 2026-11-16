@@ -564,15 +564,17 @@ R(/(good morning|gm|subah)/i,()=>'Good morning! Chai pi li? \u2615')
 ];
 const FALL=['Hmm, ye mujhe samajh nahi aaya. Mausam, AQI, joke ya coding ke baare mein pooch ke dekho \ud83d\ude05','Interesting! Thoda aur batao?','Main abhi chhota bot hoon, par seekh raha hoon \ud83e\udd16 Thoda alag tareeke se poochho!'];
 async function localBot(q){for(const r of RULES){if(r[0].test(q))return await r[1]()}return pick(FALL)}
+let offHint=false;
 async function botReply(q){if(chatBusy)return;chatBusy=true;const L=out.textContent.length;pr('\u2026 Xiters-AI is thinking');let a=null;
  try{const smp=smpBad?null:await getSample();if(smp){try{const msgs=chatH.slice(-6).concat([{role:'user',content:q}]);msgs[0]={role:'user',content:BOT_SYS+'\n\nConversation so far:\n'+msgs.map(m=>(m.role==='user'?'User: ':'Xiters-AI: ')+m.content).join('\n')+'\n\nReply as Xiters-AI to the last user message only.'};const r=await smp([msgs[0]],{cache:false});a=(r&&r.text||'').trim()||null}catch(e){if(e&&(e.code==='not_granted'))smpBad=true}}}catch(e){}
- if(!a)a=await localBot(q);
- chatH.push({role:'user',content:q},{role:'assistant',content:a});out.textContent=out.textContent.slice(0,L);pr('xiters-ai> '+a);chatBusy=false}
+if(!a){try{const ms=chatH.slice(-6).concat([{role:'user',content:q}]);const ctl=new AbortController(),tm=setTimeout(()=>ctl.abort(),15000);const rr=await fetch('/api/chat',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({messages:ms}),signal:ctl.signal});clearTimeout(tm);if(rr.ok){const j=await rr.json();a=(j&&j.reply||'').trim()||null}}catch(e){}}
+ let off=false;if(!a){a=await localBot(q);off=true}
+ chatH.push({role:'user',content:q},{role:'assistant',content:a});out.textContent=out.textContent.slice(0,L);pr('xiters-ai> '+a);if(off&&!offHint){offHint=true;pr('(Offline bot: AI server se connect nahi ho paya, isliye simple jawab aa rahe hain.)')}chatBusy=false}
 function setPrompt(t){const sp=document.querySelector('#tform span');if(sp)sp.textContent=t}
 CMD.chat=async()=>{chatMode=true;setPrompt('\ud83d\udcac');const smp=smpBad?null:await getSample();return 'Xiters-AI online \ud83e\udd16 ('+(smp?'AI mode':'offline mode')+')\nBaat shuru karo! Band karne ke liye "exit" likho.'};
 CMD.ai=async a=>{if(!a)return 'usage: ai <your message>  (or type chat for a full conversation)';await botReply(a)};
 Object.assign(DESC,{chat:'Talk to the Xiters-AI chatbot (exit to stop)',ai:'Ask the chatbot once: ai tell me a joke'});GROUPS[2][1].push('chat','ai');
-getSample().then(x=>pr('Mode: '+(x?'AI mode':'offline mode')));
+getSample().then(x=>{if(x)pr('Mode: AI mode')});
 /* on-screen cards only animate their shine */
 (function(){if(!('IntersectionObserver' in window)){document.querySelectorAll('.glass').forEach(e=>e.classList.add('vis'));return}
 const io=new IntersectionObserver(es=>es.forEach(e=>e.target.classList.toggle('vis',e.isIntersecting)),{rootMargin:'80px'});document.querySelectorAll('.glass').forEach(e=>io.observe(e))})();
