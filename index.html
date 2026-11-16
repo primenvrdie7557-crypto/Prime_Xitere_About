@@ -3,8 +3,6 @@
 <head>
 <meta charset="utf-8">
 <title>PRIME XITERS | Aasif</title>
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 100 100%27%3E%3Ctext y=%27.9em%27 font-size=%2790%27%3E%F0%9F%91%BB%3C/text%3E%3C/svg%3E">
-<meta name="theme-color" content="#0a0614">
 <meta name="description" content="Aasif (Prime Xiters): student, coder and web builder from Narela, Delhi.">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, interactive-widget=resizes-visual">
 <meta name="color-scheme" content="dark">
@@ -16,7 +14,7 @@ html[data-font=code]{--head:var(--mono);--body:var(--mono)}
 html[data-font=clean]{--head:Poppins,system-ui,sans-serif;--body:Poppins,system-ui,sans-serif}
 *,*::before,*::after{box-sizing:inherit}
 html{scroll-padding-top:env(safe-area-inset-top,0px);background:var(--ink);-webkit-text-size-adjust:100%}
-body{margin:0;min-height:100vh;min-height:100svh;color:var(--frost);font:400 1rem/1.6 var(--body);background:var(--ink);overflow-x:hidden;-webkit-font-smoothing:antialiased}
+body{margin:0;min-height:100vh;color:var(--frost);font:400 1rem/1.6 var(--body);background:var(--ink);overflow-x:hidden;-webkit-font-smoothing:antialiased}
 #bg{position:fixed;inset:0;background-size:cover;background-position:center;opacity:.3;z-index:-4}
 #rain{position:fixed;inset:0;z-index:-3;opacity:.3;width:100%;height:100%}
 .blob{position:fixed;border-radius:50%;z-index:-2;opacity:.42;background:radial-gradient(circle,var(--v) 0,transparent 66%);animation:drift 20s ease-in-out infinite alternate;will-change:transform}
@@ -219,7 +217,9 @@ html.liquid body::before{content:"";position:fixed;inset:0;z-index:-5;pointer-ev
 html:has(#welcome:not(.gone)){overflow:hidden}
 .trow input{flex:1;min-width:0}
 .trow .btn{margin:0;padding:10px 16px;border-radius:12px;white-space:nowrap;font-size:.85rem}
-html.typing #rain{display:none!important}
+html.typing .glass,html.typing header.top{-webkit-backdrop-filter:none!important;backdrop-filter:none!important;background:rgba(36,20,56,.9)!important;animation:none!important}
+html.typing .blob,html.typing .bubble,html.typing #rain,html.typing #top{display:none!important}
+html.typing .glass::after,html.typing .hero::after{display:none!important;animation:none!important}
 #crash{position:fixed;inset:0;z-index:300;background:#0a5bd8;color:#fff;font-family:"Segoe UI",system-ui,sans-serif;display:grid;place-items:center;padding:24px;cursor:pointer}
 #crash .bs{max-width:640px}#crash .sad{font-size:clamp(70px,22vw,140px);line-height:1}
 #crash p{font-size:clamp(16px,4.5vw,24px);margin:12px 0}#crash .sm{font-size:clamp(12px,3.2vw,15px);opacity:.9;font-family:ui-monospace,monospace}
@@ -242,17 +242,98 @@ canvas.mx{position:fixed;inset:0;z-index:250;width:100%;height:100%;background:#
 .src{margin:16px 0 0;color:var(--dim);font-size:.75rem}
 @media(max-width:700px){.lg{grid-template-columns:1fr}}
 
-/* ===== RENDER + SMOOTHNESS FIX (look unchanged) ===== */
-.liquid .glass{-webkit-backdrop-filter:none;backdrop-filter:none;background-color:rgba(24,14,42,.42)}
-.liquid header.top{-webkit-backdrop-filter:blur(12px) saturate(1.8) brightness(1.1);backdrop-filter:blur(12px) saturate(1.8) brightness(1.1)}
+/* profile card */
+.profile{padding:clamp(22px,3vw,34px)}.profile>*{position:relative;z-index:1}
+.profile h3{font-size:clamp(1.3rem,3.2vw,1.8rem);margin-bottom:12px}
+.pf{margin:0;display:grid;gap:0}
+.pf div{display:flex;justify-content:space-between;gap:16px;padding:11px 0;border-bottom:1px solid rgba(255,255,255,.14)}
+.pf div:last-child{border-bottom:0}
+.pf dt{color:var(--dim);font:600 .78rem var(--mono);letter-spacing:.1em;text-transform:uppercase;align-self:center}
+.pf dd{margin:0;color:var(--frost);font-weight:700;text-align:right}
+.pf a{color:var(--n);text-decoration:none}.pf a:hover{text-decoration:underline}
+/* high refresh rate smoothness */
+html{-webkit-tap-highlight-color:transparent}
+a,button,input,.chip,.btn{touch-action:manipulation}
+.blob,.bubble,#bg,#rain,body::before{will-change:transform;transform:translateZ(0);backface-visibility:hidden}
+.scrolling .blob,.scrolling .bubble,.scrolling .glass::after,.scrolling .hero::after,.scrolling .avatar{animation-play-state:paused!important}
+
+/* ===== SLOW-MO + EXTRA SMOOTH ===== */
+.blob,.liquid .blob{animation:drift 46s ease-in-out infinite alternate}
+.bubble,.liquid .bubble{animation:bub 38s ease-in-out infinite alternate}
+.ava{animation:float 11s ease-in-out infinite}
+.ava::before{animation:spin 14s linear infinite}
+.ring{animation:ring 7s ease-out infinite}
+.playing .eq i{animation-duration:1.6s}
+.pulse{animation-duration:3s}
+.hero::after{animation:sheen2 14s linear infinite}
+.liquid .glass:not(.hero)::after{animation:sheen2 16s linear infinite}
+.liquid header.top::after{animation-duration:12s}
+.btn,.hb button,.sw button{transition:transform .45s cubic-bezier(.22,1,.36,1),background .45s,box-shadow .45s}
+.glass::before{transition:opacity .6s ease}
+.links a{transition:background .45s,color .45s}
+.game,.liquid .game{transition:transform .6s cubic-bezier(.22,1,.36,1),border-color .5s}
+.toast,#top{transition:opacity .5s ease}
+#welcome{transition:opacity 1.2s ease,visibility 1.2s}
+.noanim .blob,.noanim .bubble,.noanim .ava,.noanim .ava::before{animation:none}
+@media(prefers-reduced-motion:reduce){*{animation-duration:.01s!important}}
+
+/* ===== RENDER FIX: no backdrop-filter on cards, fewer GPU layers ===== */
 .blob,.bubble,#bg,#rain{will-change:auto}
-.blob,.bubble{backface-visibility:hidden}
-.scrolling .blob,.scrolling .bubble{animation-play-state:paused!important}
-.liquid .glass:not(.vis)::after,.hero:not(.vis)::after{animation-play-state:paused}
-.scrolling .glass::after,.scrolling .hero::after{animation-play-state:paused!important}
-a,button,input,textarea,.chip,.btn{touch-action:manipulation}
-html{-webkit-tap-highlight-color:transparent;-webkit-text-size-adjust:100%}
+.liquid .glass{-webkit-backdrop-filter:none;backdrop-filter:none;background:linear-gradient(135deg,rgba(255,255,255,.15),rgba(255,255,255,.03) 45%,rgba(255,255,255,.08)),rgba(38,24,62,.64);box-shadow:inset 0 0 0 1px rgba(255,255,255,.12),inset 3px 4px 10px -3px rgba(255,255,255,.5),inset -3px -5px 12px -4px rgba(255,255,255,.16),0 12px 30px rgba(8,0,24,.45)}
+.liquid header.top{-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);background:linear-gradient(135deg,rgba(255,255,255,.16),rgba(255,255,255,.04)),rgba(38,24,62,.5)}
+.liquid .glass:not(.hero):not(.vis)::after,.hero:not(.vis)::after{animation-play-state:paused}
 @media(max-width:800px){.bb4,.bb5,.bb6,.bb7,.bb8{display:none}}
+
+/* ===== MORE LIQUID GLASS (static layers, no heavy blur) ===== */
+.liquid .glass{border:1px solid rgba(255,255,255,.42);background:
+radial-gradient(120% 80% at 10% 0%,rgba(255,255,255,.42),rgba(255,255,255,0) 44%),
+radial-gradient(90% 70% at 100% 100%,rgba(255,255,255,.2),rgba(255,255,255,0) 52%),
+linear-gradient(135deg,rgba(255,255,255,.16),rgba(255,255,255,.02) 50%,rgba(255,255,255,.1)),
+rgba(46,30,76,.5);
+box-shadow:inset 0 1.5px 0 rgba(255,255,255,.75),inset 0 -1px 0 rgba(255,255,255,.28),inset 7px 9px 20px -9px rgba(255,255,255,.62),inset -7px -9px 20px -9px rgba(255,255,255,.3),inset 2px 0 0 rgba(255,110,110,.16),inset -2px 0 0 rgba(110,170,255,.18),0 18px 42px rgba(8,0,24,.5)}
+/* header */
+.liquid header.top{-webkit-backdrop-filter:blur(18px) saturate(2) brightness(1.12);backdrop-filter:blur(18px) saturate(2) brightness(1.12);border:1px solid rgba(255,255,255,.5);background:
+radial-gradient(60% 140% at 8% 0%,rgba(255,255,255,.5),rgba(255,255,255,0) 60%),
+radial-gradient(50% 120% at 100% 100%,rgba(255,255,255,.22),rgba(255,255,255,0) 60%),
+linear-gradient(135deg,rgba(255,255,255,.2),rgba(255,255,255,.04)),rgba(46,30,76,.42);
+box-shadow:inset 0 2px 1px rgba(255,255,255,.85),inset 0 -2px 3px rgba(255,255,255,.3),inset 8px 0 18px -8px rgba(255,255,255,.55),inset -8px 0 18px -8px rgba(255,255,255,.3),inset 2px 0 0 rgba(255,110,110,.2),inset -2px 0 0 rgba(110,170,255,.22),0 14px 36px rgba(8,0,24,.55)}
+/* brand name as glossy glass text */
+.liquid .brand h1{background:linear-gradient(180deg,#fff 0%,rgba(255,255,255,.95) 38%,var(--n) 100%);-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent;filter:drop-shadow(0 1px 0 rgba(255,255,255,.55)) drop-shadow(0 3px 10px color-mix(in srgb,var(--v) 55%,transparent))}
+.liquid .dots i{background-image:radial-gradient(circle at 32% 26%,rgba(255,255,255,.95),rgba(255,255,255,0) 55%);box-shadow:inset -1px -2px 3px rgba(0,0,0,.28),0 0 8px currentColor}
+.liquid .eq i{box-shadow:0 0 6px var(--n)}
+/* nav capsule */
+.liquid .links{padding:4px;border-radius:999px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.3);box-shadow:inset 0 1.5px 0 rgba(255,255,255,.55),inset 0 -2px 6px rgba(255,255,255,.12),0 4px 12px rgba(0,0,0,.25)}
+.liquid .links a{border-radius:999px}
+.liquid .links a:hover{background:radial-gradient(100% 140% at 30% 0%,rgba(255,255,255,.55),rgba(255,255,255,.12) 60%),rgba(255,255,255,.1);color:#fff;box-shadow:inset 0 1.5px 0 rgba(255,255,255,.8),inset 0 -2px 5px rgba(255,255,255,.2),0 4px 10px rgba(0,0,0,.3)}
+/* icon buttons as glass beads */
+.liquid .hb button{width:42px;height:42px;border-radius:50%;border:1px solid rgba(255,255,255,.55);-webkit-backdrop-filter:blur(10px) saturate(1.8);backdrop-filter:blur(10px) saturate(1.8);background:radial-gradient(circle at 30% 18%,rgba(255,255,255,.75),rgba(255,255,255,.14) 38%,rgba(255,255,255,.04) 62%),rgba(255,255,255,.1);box-shadow:inset 0 2px 2px rgba(255,255,255,.9),inset 0 -5px 9px rgba(255,255,255,.2),inset 2px 0 3px rgba(255,110,110,.3),inset -2px 0 3px rgba(110,170,255,.32),0 8px 18px rgba(0,0,0,.4)}
+@media(hover:hover){.liquid .hb button:hover{transform:scale(1.12)}}
+.liquid .hb button:active{transform:scale(.92)}
+.liquid .hb button svg{filter:drop-shadow(0 1px 1px rgba(0,0,0,.35))}
+/* other glass bits */
+.liquid .chip,.liquid .tag,.liquid .btn.ghost{background:radial-gradient(100% 140% at 25% 0%,rgba(255,255,255,.4),rgba(255,255,255,.06) 60%),rgba(255,255,255,.08);box-shadow:inset 0 1.5px 0 rgba(255,255,255,.75),inset 0 -2px 5px rgba(255,255,255,.16)}
+.liquid .fg div,.liquid .lc,.liquid .cps span{background:radial-gradient(120% 100% at 20% 0%,rgba(255,255,255,.22),rgba(255,255,255,0) 60%),rgba(255,255,255,.06);box-shadow:inset 0 1.5px 0 rgba(255,255,255,.55),inset 0 -2px 6px rgba(255,255,255,.1)}
+@media(max-width:520px){.brand .eq{display:none}.liquid .hb button{width:38px;height:38px}.brand h1{white-space:nowrap;font-size:.9rem;letter-spacing:.08em}.dots{margin-right:8px}.hb{gap:6px}}
+
+/* ===== TONE DOWN WHITE: colored, deeper glass ===== */
+.liquid .glass{border:1px solid rgba(255,255,255,.2);background:
+radial-gradient(120% 80% at 10% 0%,color-mix(in srgb,var(--v) 34%,transparent),rgba(255,255,255,0) 46%),
+radial-gradient(90% 70% at 100% 100%,color-mix(in srgb,var(--m) 22%,transparent),rgba(255,255,255,0) 52%),
+linear-gradient(135deg,rgba(255,255,255,.06),rgba(255,255,255,0) 50%,rgba(255,255,255,.03)),
+rgba(22,12,40,.66);
+box-shadow:inset 0 1px 0 rgba(255,255,255,.4),inset 0 -1px 0 rgba(255,255,255,.1),inset 6px 8px 18px -10px color-mix(in srgb,var(--n) 55%,transparent),inset -6px -8px 18px -10px color-mix(in srgb,var(--m) 40%,transparent),inset 2px 0 0 rgba(255,110,110,.1),inset -2px 0 0 rgba(110,170,255,.12),0 16px 40px rgba(8,0,24,.55)}
+.liquid header.top{border:1px solid rgba(255,255,255,.28);background:
+radial-gradient(60% 140% at 8% 0%,color-mix(in srgb,var(--v) 40%,transparent),rgba(255,255,255,0) 60%),
+radial-gradient(50% 120% at 100% 100%,color-mix(in srgb,var(--m) 25%,transparent),rgba(255,255,255,0) 60%),
+rgba(22,12,40,.5);
+box-shadow:inset 0 1.5px 0 rgba(255,255,255,.5),inset 0 -2px 3px rgba(255,255,255,.1),inset 8px 0 18px -10px color-mix(in srgb,var(--n) 50%,transparent),inset -8px 0 18px -10px color-mix(in srgb,var(--m) 40%,transparent),0 14px 36px rgba(8,0,24,.55)}
+.liquid .brand h1{background:linear-gradient(180deg,color-mix(in srgb,#fff 45%,var(--n)) 0%,var(--n) 55%,var(--v) 100%);-webkit-background-clip:text;background-clip:text;filter:drop-shadow(0 1px 0 rgba(255,255,255,.25)) drop-shadow(0 3px 10px color-mix(in srgb,var(--v) 60%,transparent))}
+.liquid .links{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.18);box-shadow:inset 0 1px 0 rgba(255,255,255,.3),0 4px 12px rgba(0,0,0,.3)}
+.liquid .links a:hover{background:radial-gradient(100% 140% at 30% 0%,color-mix(in srgb,var(--v) 45%,transparent),rgba(255,255,255,.04) 65%),rgba(255,255,255,.05);box-shadow:inset 0 1px 0 rgba(255,255,255,.5),0 4px 10px rgba(0,0,0,.3)}
+.liquid .hb button{border:1px solid rgba(255,255,255,.3);background:radial-gradient(circle at 30% 18%,color-mix(in srgb,#fff 40%,var(--n)),color-mix(in srgb,var(--v) 30%,transparent) 42%,rgba(255,255,255,.03) 66%),rgba(22,12,40,.35);box-shadow:inset 0 1.5px 1px rgba(255,255,255,.55),inset 0 -5px 9px color-mix(in srgb,var(--m) 30%,transparent),0 8px 18px rgba(0,0,0,.45)}
+.liquid .chip,.liquid .tag,.liquid .btn.ghost{background:radial-gradient(100% 140% at 25% 0%,color-mix(in srgb,var(--v) 30%,transparent),rgba(255,255,255,.02) 62%),rgba(255,255,255,.04);box-shadow:inset 0 1px 0 rgba(255,255,255,.4),inset 0 -2px 5px rgba(255,255,255,.06)}
+.liquid .fg div,.liquid .lc,.liquid .cps span{background:radial-gradient(120% 100% at 20% 0%,color-mix(in srgb,var(--v) 22%,transparent),rgba(255,255,255,0) 62%),rgba(255,255,255,.03);box-shadow:inset 0 1px 0 rgba(255,255,255,.3),inset 0 -2px 6px rgba(255,255,255,.05)}
+.liquid .glass:not(.hero)::after,.hero::after{background:linear-gradient(100deg,transparent,rgba(255,255,255,.07),transparent)}
 
 /* no gap above the header */
 header.top,.liquid header.top{margin-top:0}
@@ -297,20 +378,21 @@ html,body{background-color:#0a0614}
     </div>
   </section>
 
-  <section class="code glass" id="about">
-    <div class="bar"><span class="dots"><i></i><i></i><i></i></span>aasif.js</div>
-<pre><span class="k">const</span> <span class="p">aasif</span> = {
-  <span class="p">name</span>: <span class="s">"Aasif"</span>,
-  <span class="p">age</span>: <span class="nu">16</span>,
-  <span class="p">birthday</span>: <span class="s">"23 October"</span>,
-  <span class="p">class</span>: <span class="nu">11</span>,
-  <span class="p">stream</span>: <span class="s">"Arts"</span>,
-  <span class="p">city</span>: <span class="s">"Narela"</span>,
-  <span class="p">state</span>: <span class="s">"Delhi"</span>,
-  <span class="p">hobby</span>: <span class="s">"Coding"</span>,
-  <span class="p">telegram</span>: <span class="s">"@Prime_Xiters"</span>,
-  <span class="p">whatsapp</span>: <span class="s">"+91 75320 58659"</span>
-};</pre>
+  <section class="glass profile" id="about">
+    <div class="eyebrow">Profile</div>
+    <h3>Aasif · Prime Xiters</h3>
+    <dl class="pf">
+      <div><dt>Name</dt><dd>Aasif</dd></div>
+      <div><dt>Age</dt><dd>16 years</dd></div>
+      <div><dt>Birthday</dt><dd>23 October</dd></div>
+      <div><dt>Class</dt><dd>11th</dd></div>
+      <div><dt>Stream</dt><dd>Arts</dd></div>
+      <div><dt>City</dt><dd>Narela</dd></div>
+      <div><dt>State</dt><dd>Delhi</dd></div>
+      <div><dt>Hobby</dt><dd>Coding</dd></div>
+      <div><dt>Telegram</dt><dd><a href="https://t.me/Prime_Xiters" target="_blank" rel="noopener">@Prime_Xiters</a></dd></div>
+      <div><dt>WhatsApp</dt><dd><a href="https://wa.me/917532058659" target="_blank" rel="noopener">+91 75320 58659</a></dd></div>
+    </dl>
   </section>
 
   <aside class="facts glass" aria-label="Quick facts"><div class="eyebrow">About me</div><h3>Building things, one line at a time</h3><p class="sub">I’m Aasif, a Class 11 student from Narela, Delhi. I love coding, making websites and tools, and learning how the web works.</p><div class="fg"><div><b>Class 11</b><span>Studying</span></div><div><b>Arts</b><span>Stream</span></div><div><b>Delhi</b><span>Narela</span></div><div><b>Coding</b><span>Main hobby</span></div></div></aside>
@@ -347,9 +429,9 @@ html,body{background-color:#0a0614}
   </section>
 
   <section class="code glass" id="terminal">
-    <div class="bar"><span class="dots"><i></i><i></i><i></i></span>xiters-ai <span id="clock" style="margin-left:auto"></span></div>
+    <div class="bar"><span class="dots"><i></i><i></i><i></i></span>terminal <span id="clock" style="margin-left:auto"></span></div>
     <div class="term" id="tout"></div>
-    <form class="trow" id="tform" autocomplete="off" onsubmit="return false"><span>💬</span><input id="tin" enterkeyhint="send" type="text" placeholder="Xiters-AI se kuch bhi poochho..." aria-label="Message to Xiters-AI" autocomplete="off" autocapitalize="off" spellcheck="false"><button class="btn" id="tgo" type="submit" aria-label="Run command">Enter ↵</button></form>
+    <form class="trow" id="tform" autocomplete="off" onsubmit="return false"><span>$</span><input id="tin" enterkeyhint="send" type="text" placeholder="type help" aria-label="Terminal command" autocomplete="off" autocapitalize="off" spellcheck="false"><button class="btn" id="tgo" type="submit" aria-label="Run command">Enter ↵</button></form>
   </section>
 </main>
 <footer>&copy; 2026 Prime Xiters</footer>
@@ -401,15 +483,15 @@ const cv=$('rain'),x=cv.getContext('2d');let cols,drops,run=false,last=0;
 function size(){cv.width=innerWidth>>1;cv.height=innerHeight>>1;cols=Math.floor(cv.width/10);drops=Array.from({length:cols},()=>Math.random()*cv.height/10)}
 let lw=innerWidth;size();addEventListener('resize',()=>{if(innerWidth!==lw){lw=innerWidth;size()}});const ch='01{}<>/;=()$#';
 let rcol='#a855f7',rct=0;
-function frame(t){if(!run)return;requestAnimationFrame(frame);if(document.hidden||H.classList.contains('scrolling')||H.classList.contains('typing')){last=t;return}
+function frame(t){if(!run)return;requestAnimationFrame(frame);if(document.hidden||H.classList.contains('scrolling')){last=t;return}
  const dt=Math.min(t-last,100);last=t;if(t-rct>1000){rct=t;rcol=getComputedStyle(H).getPropertyValue('--v').trim()||'#a855f7'}
- x.fillStyle='rgba(8,5,18,'+(1-Math.pow(.86,dt/66)).toFixed(4)+')';x.fillRect(0,0,cv.width,cv.height);x.fillStyle=rcol;x.font='9px monospace';
- for(let k=0;k<cols;k++){const p0=drops[k]|0;drops[k]+=dt/66;const c1=drops[k]|0;if(c1!==p0){x.fillText(ch[Math.random()*ch.length|0],k*10,c1*10);if(c1*10>cv.height&&Math.random()>.975)drops[k]=0}}}
+ x.fillStyle='rgba(8,5,18,'+(1-Math.pow(.86,dt/150)).toFixed(4)+')';x.fillRect(0,0,cv.width,cv.height);x.fillStyle=rcol;x.font='9px monospace';
+ for(let k=0;k<cols;k++){const pr0=drops[k]|0;drops[k]+=dt/150;const cu=drops[k]|0;if(cu!==pr0){x.fillText(ch[Math.random()*ch.length|0],k*10,cu*10);if(cu*10>cv.height&&Math.random()>.975)drops[k]=0}}}
 function rainState(){const on=S.rain&&!S.lite;cv.style.display=on?'block':'none';if(on&&!run){run=true;requestAnimationFrame(frame)}else if(!on)run=false}
 /* clock + terminal */
 function tick2(){if(!document.hidden)$('clock').textContent='Delhi '+new Date().toLocaleTimeString('en-IN',{timeZone:'Asia/Kolkata'})}tick2();setInterval(tick2,1000);
 const out=$('tout');function pr(t){out.textContent+=t+'\n';out.scrollTop=out.scrollHeight}
-pr('Xiters-AI online \ud83e\udd16 Kuch bhi poochho, main jawab dunga!');
+pr('Welcome to Prime Xiters OS. Type "help".');
 const T0=Date.now(),hist=[];let hi=0;
 const pick=a=>a[Math.random()*a.length|0],sleep=ms=>new Promise(r=>setTimeout(r,ms));
 const up=()=>{const s=Math.floor((Date.now()-T0)/1000);return Math.floor(s/60)+'m '+s%60+'s'};
@@ -454,7 +536,6 @@ reboot:()=>{setTimeout(()=>location.reload(),900);return 'Rebooting Prime Xiters
 clear:()=>{out.textContent=''},
 hack:async()=>{const st=['Scanning ports...','Bypassing firewall...','Injecting payload...','Decrypting mainframe...','Downloading secrets...'];for(const l of st){pr('> '+l);await sleep(450)}pr('[##########] 100%');await sleep(300);pr('ACCESS GRANTED... just kidding. This is a demo \ud83d\ude04')}
 };
-async function runCmd(raw){const v=raw.trim();if(!v)return;pr('you> '+v);hist.push(v);hi=hist.length;await botReply(v)}
 $('tin').onkeydown=e=>{if(e.key==='ArrowUp'){if(hi>0){hi--;e.target.value=hist[hi]}e.preventDefault()}else if(e.key==='ArrowDown'){hi=Math.min(hi+1,hist.length);e.target.value=hist[hi]||'';e.preventDefault()}};
 /* ===== more cool commands ===== */
 let crashing=false,skipCrash=false;
@@ -536,53 +617,56 @@ CMD.all=CMD.cmds=CMD.allcommands=()=>CMD.commands();
 /* funny reply for rude words (clean) */
 const SASS=['Oho! Itni garmi? Thoda paani pi lo \ud83e\udd64','Language bhai, language! Meri mummy dekh rahi hain \ud83d\ude07','Terminal ne tumhe mute kar diya. Bas mazaak! \ud83d\ude1c','Gussa thook do, code likho. Compile ho jaayega \ud83d\ude0e','ERROR 404: Tameez not found \ud83e\udd23','Itna gussa? Ek chai pi lo, phir baat karte hain \u2615','Bhai tera keyboard garam ho gaya, thanda kar le \ud83e\uddca','Mujhe chhod, pehle apna bug fix kar \ud83d\udc1b'];
 CMD.fuck=()=>pick(SASS);CMD.shit=CMD.fuck;CMD.damn=CMD.fuck;
-/* ===== Xiters-AI chatbot ===== */
-let chatMode=false,chatBusy=false,smpP=null,smpBad=false;const chatH=[];
-const getSample=()=>smpP||(smpP=(async()=>{try{if(!window.claude||!window.claude.use)return null;return await Promise.race([window.claude.use('sample'),sleep(3000).then(()=>null)])}catch(e){return null}})());
-const BOT_SYS='You are Xiters-AI, a friendly, funny chatbot living inside the terminal of Aasif\u2019s (Prime Xiters) portfolio website. Aasif is a Class 11 student from Narela, Delhi who loves coding. Reply in the same language the user writes (Hinglish or English), in at most 2-3 short sentences, with a light joke or emoji sometimes. Keep it polite and clean: no abuse, nothing sexual or violent. Do not share anyone\u2019s phone number or private details. If you do not know something, say so.';
-const R=(re,f)=>[re,f];
-const RULES=[
-R(/\b(fuck|shit|damn)\b/i,()=>pick(SASS)),
-R(/\b(hi|hello|hey|hii+|namaste|salam|yo)\b/i,()=>pick(['Hey! Kaise ho? \ud83d\ude04','Namaste! Bolo, kya haal hai?','Hello ji! Main Xiters-AI hoon \ud83e\udd16'])),
-R(/(how are you|kaise ho|kese ho|kya haal|kaisa hai)/i,()=>pick(['Ekdum mast, bas bugs se door hoon \ud83d\ude0e Aap batao?','Main badhiya! Code chal raha hai, dil bhi \ud83d\ude04'])),
-R(/(your name|tera naam|tumhara naam|aapka naam|who are you|tum kaun|tu kaun)/i,()=>'Main Xiters-AI hoon, Aasif ke terminal ka chhota chatbot \ud83e\udd16'),
-R(/(who (made|built|created)|kisne banaya|creator|owner)/i,()=>'Mujhe Aasif (Prime Xiters) ke terminal ke liye banaya gaya hai \ud83d\udcbb'),
-R(/(about aasif|aasif kaun|aasif ke baare|tell me about)/i,()=>'Aasif Narela, Delhi ka Class 11 ka student hai aur coding ka shaukeen hai.'),
-R(/(weather|mausam|temperature|garmi|sardi)/i,async()=>await CMD.weather()),
-R(/(aqi|pollution|air quality|hawa|pradushan)/i,async()=>await CMD.aqi()),
-R(/(joke|mazak|hasao|funny|chutkula)/i,()=>pick(JOKES)),
-R(/(time|samay|kitne baje)/i,()=>'Abhi India mein: '+CMD.time()),
-R(/(date|tarikh|aaj kaun sa din)/i,()=>'Aaj ki date: '+CMD.date()),
-R(/(quote|motivat|inspire|himmat|udaas|sad)/i,()=>pick(QUOTES)+' \ud83d\udcaa'),
-R(/(code|coding|programming|learn|sikhna|developer|html|css|javascript|python)/i,()=>pick(['Coding seekhne ka mantra: roz thoda likho, projects banao, bugs se mat daro \ud83d\udc1b','Chhote projects banao, jaise calculator ya to-do app. Wahi se asli seekh aati hai!'])),
-R(/(love you|i love|pyar|i like you)/i,()=>'Aww! Main ek bot hoon, par dil se shukriya \u2764\ufe0f'),
-R(/(thanks|thank you|shukriya|dhanyavad|thnx)/i,()=>pick(['Koi baat nahi! \ud83d\ude0a','Mention not, dost!'])),
-R(/(bored|bore|boring)/i,()=>'Bore ho rahe ho? Chalo ek joke sunata hoon, bas "joke" bolo \ud83d\ude04'),
-R(/(help|madad|commands|kya kar sakta)/i,()=>'Mujhse mausam, AQI, joke, time ya coding tips pooch sakte ho.'),
-R(/(bye|alvida|tata|good night|gn)/i,()=>'Bye bye! Phir milte hain \ud83d\udc4b'),
-R(/(good morning|gm|subah)/i,()=>'Good morning! Chai pi li? \u2615')
-];
-const FALL=['Hmm, ye mujhe samajh nahi aaya. Mausam, AQI, joke ya coding ke baare mein pooch ke dekho \ud83d\ude05','Interesting! Thoda aur batao?','Main abhi chhota bot hoon, par seekh raha hoon \ud83e\udd16 Thoda alag tareeke se poochho!'];
-async function localBot(q){for(const r of RULES){if(r[0].test(q))return await r[1]()}return pick(FALL)}
-let offHint=false;
-async function botReply(q){if(chatBusy)return;chatBusy=true;const L=out.textContent.length;pr('\u2026 Xiters-AI is thinking');let a=null;
- try{const smp=smpBad?null:await getSample();if(smp){try{const msgs=chatH.slice(-6).concat([{role:'user',content:q}]);msgs[0]={role:'user',content:BOT_SYS+'\n\nConversation so far:\n'+msgs.map(m=>(m.role==='user'?'User: ':'Xiters-AI: ')+m.content).join('\n')+'\n\nReply as Xiters-AI to the last user message only.'};const r=await smp([msgs[0]],{cache:false});a=(r&&r.text||'').trim()||null}catch(e){if(e&&(e.code==='not_granted'))smpBad=true}}}catch(e){}
-if(!a){try{const ms=chatH.slice(-6).concat([{role:'user',content:q}]);const ctl=new AbortController(),tm=setTimeout(()=>ctl.abort(),15000);const rr=await fetch('/api/chat',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({messages:ms}),signal:ctl.signal});clearTimeout(tm);if(rr.ok){const j=await rr.json();a=(j&&j.reply||'').trim()||null}}catch(e){}}
- let off=false;if(!a){a=await localBot(q);off=true}
- chatH.push({role:'user',content:q},{role:'assistant',content:a});out.textContent=out.textContent.slice(0,L);pr('xiters-ai> '+a);if(off&&!offHint){offHint=true;pr('(Offline bot: AI server se connect nahi ho paya, isliye simple jawab aa rahe hain.)')}chatBusy=false}
-function setPrompt(t){const sp=document.querySelector('#tform span');if(sp)sp.textContent=t}
-CMD.chat=async()=>{chatMode=true;setPrompt('\ud83d\udcac');const smp=smpBad?null:await getSample();return 'Xiters-AI online \ud83e\udd16 ('+(smp?'AI mode':'offline mode')+')\nBaat shuru karo! Band karne ke liye "exit" likho.'};
-CMD.ai=async a=>{if(!a)return 'usage: ai <your message>  (or type chat for a full conversation)';await botReply(a)};
-Object.assign(DESC,{chat:'Talk to the Xiters-AI chatbot (exit to stop)',ai:'Ask the chatbot once: ai tell me a joke'});GROUPS[2][1].push('chat','ai');
-getSample().then(x=>{if(x)pr('Mode: AI mode')});
-/* on-screen cards only animate their shine */
+/* animate shine only on cards that are on screen */
 (function(){if(!('IntersectionObserver' in window)){document.querySelectorAll('.glass').forEach(e=>e.classList.add('vis'));return}
 const io=new IntersectionObserver(es=>es.forEach(e=>e.target.classList.toggle('vis',e.isIntersecting)),{rootMargin:'80px'});document.querySelectorAll('.glass').forEach(e=>io.observe(e))})();
-/* keyboard state: reliable even when Android back closes the keyboard */
-(function(){const tin=$('tin'),vv=window.visualViewport;if(!vv)return;let base=vv.height;
-vv.addEventListener('resize',()=>{if(vv.height>base)base=vv.height;const open=vv.height<base*0.8;H.classList.toggle('typing',open&&document.activeElement===tin);if(open&&document.activeElement===tin)tin.scrollIntoView({block:'center'})})})();
-/* pause music when the tab is hidden, resume if it was playing */
-(function(){let was=false;document.addEventListener('visibilitychange',()=>{if(document.hidden){was=!song.paused;if(was)song.pause()}else if(was&&!song.muted){song.play().catch(()=>{})}})})();
+/* ===== extra terminal commands ===== */
+const todoKey='px_todo',todos=()=>{try{return JSON.parse(localStorage.getItem(todoKey)||'[]')}catch(e){return[]}},saveTodos=a=>{try{localStorage.setItem(todoKey,JSON.stringify(a))}catch(e){}};
+let swStart=0,tmrId=0;
+const b64e=t=>btoa(String.fromCharCode(...new TextEncoder().encode(t))),b64d=t=>new TextDecoder().decode(Uint8Array.from(atob(t),c=>c.charCodeAt(0)));
+const MOON=['New moon \ud83c\udf11','Waxing crescent \ud83c\udf12','First quarter \ud83c\udf13','Waxing gibbous \ud83c\udf14','Full moon \ud83c\udf15','Waning gibbous \ud83c\udf16','Last quarter \ud83c\udf17','Waning crescent \ud83c\udf18'];
+Object.assign(CMD,{
+battery:async()=>{if(!navigator.getBattery)return 'Battery info is not supported in this browser.';const b=await navigator.getBattery();return '\ud83d\udd0b '+Math.round(b.level*100)+'% ('+(b.charging?'charging':'not charging')+')'},
+network:()=>{const c=navigator.connection||{};return (navigator.onLine?'\ud83d\udfe2 Online':'\ud83d\udd34 Offline')+(c.effectiveType?' | '+c.effectiveType:'')+(c.downlink?' | ~'+c.downlink+' Mbps':'')+(c.rtt!=null?' | rtt '+c.rtt+' ms':'')},
+device:()=>'Screen: '+screen.width+'x'+screen.height+' | Window: '+innerWidth+'x'+innerHeight+' | DPR '+devicePixelRatio+'\nLanguage: '+navigator.language+' | CPU cores: '+(navigator.hardwareConcurrency||'?')+(navigator.deviceMemory?' | RAM ~'+navigator.deviceMemory+' GB':'')+'\nTimezone: '+Intl.DateTimeFormat().resolvedOptions().timeZone,
+birthday:()=>{const n=new Date(),y=n.getFullYear(),t0=new Date(y,n.getMonth(),n.getDate());let d=new Date(y,9,23);if(d<t0)d=new Date(y+1,9,23);const days=Math.round((d-t0)/864e5);return days===0?'\ud83c\udf82 Happy Birthday Aasif! \ud83c\udf89':'\ud83c\udf82 '+days+' days until 23 October'},
+timer:a=>{const s=Math.min(3600,Math.max(1,parseInt(a)||0));if(!parseInt(a))return 'usage: timer <seconds>  (example: timer 30)';clearTimeout(tmrId);tmrId=setTimeout(()=>{pr('\u23f0 Timer done ('+s+'s)!');try{toast('\u23f0 Timer done!')}catch(e){}try{navigator.vibrate&&navigator.vibrate(300)}catch(e){}},s*1000);return '\u23f3 Timer set for '+s+' seconds'},
+stopwatch:a=>{a=(a||'').toLowerCase();if(a==='start'){swStart=Date.now();return '\u23f1 Stopwatch started'}if(a==='stop'||a==='lap'){if(!swStart)return 'Start first: stopwatch start';const t=((Date.now()-swStart)/1000).toFixed(2);if(a==='stop')swStart=0;return '\u23f1 '+t+' s'+(a==='stop'?' (stopped)':'')}return 'usage: stopwatch start | lap | stop'},
+password:a=>{const n=Math.min(64,Math.max(6,parseInt(a)||16)),c='abcdefghijkmnopqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ23456789!@#$%&*',r=new Uint32Array(n);crypto.getRandomValues(r);return '\ud83d\udd10 '+[...r].map(x=>c[x%c.length]).join('')},
+uuid:()=>crypto.randomUUID?crypto.randomUUID():'uuid is not supported here',
+random:a=>{const p=(a||'').split(/[\s,\-]+/).filter(Boolean).map(Number).filter(n=>!isNaN(n));let lo=1,hi=100;if(p.length===1)hi=p[0];if(p.length>=2){lo=Math.min(p[0],p[1]);hi=Math.max(p[0],p[1])}return '\ud83c\udfaf '+(lo+Math.floor(Math.random()*(hi-lo+1)))+'  (range '+lo+'-'+hi+')'},
+pick:a=>{const l=(a||'').split(',').map(x=>x.trim()).filter(Boolean);return l.length<2?'usage: pick pizza, burger, momos':'\ud83d\udc49 '+pick(l)},
+temp:a=>{const m=(a||'').match(/^(-?\d+(?:\.\d+)?)\s*([cf])$/i);if(!m)return 'usage: temp 30c  or  temp 86f';const v=+m[1];return m[2].toLowerCase()==='c'?v+'\u00b0C = '+(v*9/5+32).toFixed(1)+'\u00b0F':v+'\u00b0F = '+((v-32)*5/9).toFixed(1)+'\u00b0C'},
+base64:a=>{const m=(a||'').match(/^(enc|dec)\s+([\s\S]+)$/i);if(!m)return 'usage: base64 enc hello  |  base64 dec aGVsbG8=';try{return m[1].toLowerCase()==='enc'?b64e(m[2]):b64d(m[2].trim())}catch(e){return 'Invalid base64'}},
+binary:a=>a?[...new TextEncoder().encode(a)].map(b=>b.toString(2).padStart(8,'0')).join(' '):'usage: binary hello',
+hex:a=>a?[...new TextEncoder().encode(a)].map(b=>b.toString(16).padStart(2,'0')).join(' '):'usage: hex hello',
+rot13:a=>a?a.replace(/[a-zA-Z]/g,c=>String.fromCharCode((c<='Z'?90:122)>=(c=c.charCodeAt(0)+13)?c:c-26)):'usage: rot13 hello',
+reverse:a=>a?[...a].reverse().join(''):'usage: reverse hello',
+upper:a=>a?a.toUpperCase():'usage: upper hello',lower:a=>a?a.toLowerCase():'usage: lower HELLO',
+length:a=>a?'Length: '+[...a].length+' characters, '+a.trim().split(/\s+/).length+' words':'usage: length your text here',
+moon:()=>{const d=((Date.now()/864e5+2440587.5-2451550.1)%29.530588853+29.530588853)%29.530588853;return MOON[Math.round(d/29.530588853*8)%8]},
+emoji:()=>pick(['\ud83d\ude0e','\ud83d\ude80','\ud83d\udd25','\ud83d\udc7b','\ud83e\udd16','\ud83c\udf08','\u26a1','\ud83c\udfae','\ud83c\udf55','\ud83d\udcbb','\ud83e\udd29','\ud83e\udd73']),
+color:()=>{const h='#'+Math.floor(Math.random()*16777215).toString(16).padStart(6,'0');return '\ud83c\udfa8 '+h.toUpperCase()},
+copy:async a=>{if(!a)return 'usage: copy <text>';try{await navigator.clipboard.writeText(a);return '\ud83d\udccb Copied!'}catch(e){return 'Could not copy (browser blocked it)'}},
+todo:a=>{const l=todos(),m=(a||'').match(/^(\w+)\s*([\s\S]*)$/),cmd=m?m[1].toLowerCase():'list',arg=m?m[2].trim():'';
+ if(cmd==='add'){if(!arg)return 'usage: todo add buy milk';l.push({t:arg,d:false});saveTodos(l);return '\u2705 Added #'+l.length}
+ if(cmd==='done'){const i=parseInt(arg)-1;if(!l[i])return 'usage: todo done <number>';l[i].d=!l[i].d;saveTodos(l);return (l[i].d?'\u2611 Done: ':'\u2610 Undone: ')+l[i].t}
+ if(cmd==='del'||cmd==='rm'){const i=parseInt(arg)-1;if(!l[i])return 'usage: todo del <number>';const x=l.splice(i,1)[0];saveTodos(l);return '\ud83d\uddd1 Removed: '+x.t}
+ if(cmd==='clear'){saveTodos([]);return 'Todo list cleared'}
+ return l.length?l.map((x,i)=>(i+1)+'. '+(x.d?'\u2611 ':'\u2610 ')+x.t).join('\n'):'Your todo list is empty. Try: todo add learn css'},
+links:()=>'Telegram: https://t.me/Prime_Xiters\nWhatsApp: https://wa.me/917532058659',
+open:a=>{a=(a||'').toLowerCase();const u={telegram:'https://t.me/Prime_Xiters',whatsapp:'https://wa.me/917532058659'}[a];if(!u)return 'usage: open telegram | whatsapp';window.open(u,'_blank','noopener');return 'Opening '+a+'...'},
+tree:()=>'~/prime-xiters\n\u251c\u2500\u2500 about.txt\n\u251c\u2500\u2500 contact.txt\n\u251c\u2500\u2500 secret.txt\n\u2514\u2500\u2500 projects/\n    \u2514\u2500\u2500 coming-soon.md',
+man:a=>{a=(a||'').toLowerCase();return a?(DESC[a]?a+': '+DESC[a]:'No manual entry for '+a):'usage: man <command>'}
+});
+Object.assign(DESC,{battery:'Battery level',network:'Connection info',device:'Screen and device info',birthday:'Days until 23 October',timer:'timer 30 (seconds)',stopwatch:'stopwatch start | lap | stop',password:'Strong password: password 20',uuid:'Random UUID',random:'random 1 100',pick:'pick pizza, burger, momos',temp:'temp 30c  or  temp 86f',base64:'base64 enc hello | dec aGVsbG8=',binary:'Text to binary',hex:'Text to hex',rot13:'ROT13 cipher',reverse:'Reverse your text',upper:'UPPERCASE text',lower:'lowercase text',length:'Count characters and words',moon:'Today\u2019s moon phase',emoji:'Random emoji',color:'Random color code',copy:'Copy text to clipboard',todo:'todo add | done | del | clear',links:'My links',open:'open telegram | whatsapp',tree:'Fake file tree',man:'man <command>'});
+GROUPS[0][1].push('links','open','tree','man');
+GROUPS.splice(4,0,['UTILS',['password','uuid','random','pick','temp','base64','binary','hex','rot13','reverse','upper','lower','length','copy','todo','timer','stopwatch','emoji','color']],['DEVICE',['battery','network','device','birthday','moon']]);
+CMD.help=()=>GROUPS.map(g=>(g[0]+'          ').slice(0,10)+g[1].join(' ')).join('\n')+'\n\nTip: "all commands" shows what each command does. Use \u2191 \u2193 for history.';
+/* ===== terminal command runner ===== */
+async function runCmd(raw){const v=raw.trim();if(!v)return;pr('$ '+v);hist.push(v);hi=hist.length;const p=v.split(/\s+/),c=p[0].toLowerCase(),a=v.slice(p[0].length).trim();
+ if(!Object.prototype.hasOwnProperty.call(CMD,c)){const m=Object.keys(CMD).filter(k=>k.startsWith(c.slice(0,2)));pr('command not found: '+c+(m.length?'\nDid you mean: '+m.slice(0,5).join(', ')+' ?':' (type "all commands" to see everything)'));return}
+ let r;try{r=await CMD[c](a)}catch(e){r='Error running command'}if(r)pr(r)}
 /* keyboard-safe terminal */
 (function(){const tin=$('tin');
 tin.addEventListener('focus',()=>{H.classList.add('typing');setTimeout(()=>$('terminal').scrollIntoView({block:'center',behavior:'smooth'}),350)});
